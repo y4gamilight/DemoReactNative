@@ -5,10 +5,21 @@
  //Google library
 npm install react-native-google-signin --save
 react-native link react-native-google-signin
+For iOS
+https://github.com/devfd/react-native-google-signin/blob/master/ios-guide.md
+
 
 
  2/Run iOS
+
+ ```
  react-native run-ios
+ ```
+
+ ```
+ Go to folder ios
+  -> Call pod install
+ ```
 
 
 

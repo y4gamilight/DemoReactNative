@@ -8,9 +8,45 @@ import {
 import {GoogleSignin,GoogleSigninButton} from 'react-native-google-signin';
 
 export default class LoginScreen extends Component {
-
+    constructor() {
+        super()
+        
+    }
+    checkEnableGoogleService() {
+        let isEnable = false
+        GoogleSignin.hasPlayServices({ autoResolve: true }).then(() => {
+              // play services are available. can now configure library
+                isEnable = true     
+             })
+        .catch((err) => {
+             console.log("Play services error", err.code, err.message);
+             isEnable = false
+         })
+        return isEnable
+    }
     signInGoogle() {
-        alert("google open")
+        if (this.checkEnableGoogleService() == true) {
+            alert("OK fine")
+            loginWithIOS()
+        } else {
+            alert("not good")
+        }
+    }
+
+    loginWithIOS() {
+        GoogleSignin.configure({
+            iosClientId: "762353163795-9l9q9is53sog11gu3kqvusdnv58aq3m1.apps.googleusercontent.com", // only for iOS
+        }).then(() => {
+            // you can now call currentUserAsync()
+            checkAsyncAccount()
+        });
+    }
+    
+    checkAsyncAccount() {
+        GoogleSignin.currentUserAsync().then((user) => {
+            console.log('USER', user);
+            this.setState({user: user});
+        }).done();
     }
 
     render() {

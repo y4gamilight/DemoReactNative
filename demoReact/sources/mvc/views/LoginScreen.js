@@ -12,6 +12,7 @@ export default class LoginScreen extends Component {
         super()
         
     }
+
     checkEnableGoogleService() {
         let isEnable = false
         GoogleSignin.hasPlayServices({ autoResolve: true }).then(() => {
@@ -27,13 +28,12 @@ export default class LoginScreen extends Component {
     signInGoogle() {
         if (this.checkEnableGoogleService() == true) {
             alert("OK fine")
-            loginWithIOS()
         } else {
             alert("not good")
         }
     }
 
-    loginWithIOS() {
+    configurationIOS() {
         GoogleSignin.configure({
             iosClientId: "762353163795-9l9q9is53sog11gu3kqvusdnv58aq3m1.apps.googleusercontent.com", // only for iOS
         }).then(() => {
@@ -48,6 +48,12 @@ export default class LoginScreen extends Component {
             this.setState({user: user});
         }).done();
     }
+
+    //Lifecycle
+    componentDidMount() {
+        configurationIOS()
+    }
+    
 
     render() {
         return (

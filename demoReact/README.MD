@@ -5,6 +5,12 @@
  //Google library
 npm install react-native-google-signin --save
 react-native link react-native-google-signin
+
+npm i react-native-firebase --save
+npm i react-native-facebook-login --save
+react-native link react-native-firebase
+react-native link react-native-facebook-login
+
 For iOS
 https://github.com/devfd/react-native-google-signin/blob/master/ios-guide.md
 

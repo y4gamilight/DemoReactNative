@@ -10,49 +10,67 @@ import {GoogleSignin,GoogleSigninButton} from 'react-native-google-signin';
 export default class LoginScreen extends Component {
     constructor() {
         super()
-        
+        this.state = {
+            enableGoogleService: false,
+            displayName:""
+        }
+    }
+    updateMessage(value) {
+        this.setState ({
+            errorSignIn: value
+        }); 
     }
 
     checkEnableGoogleService() {
-        let isEnable = false
         GoogleSignin.hasPlayServices({ autoResolve: true }).then(() => {
               // play services are available. can now configure library
-                isEnable = true     
+                this.updateMessage(true) 
              })
         .catch((err) => {
-             console.log("Play services error", err.code, err.message);
-             isEnable = false
+            let errorMessage = err.message
+            this.setState({errorSignIn:errorMessage})
+            return err
          })
-        return isEnable
     }
     signInGoogle() {
-        if (this.checkEnableGoogleService() == true) {
-            alert("OK fine")
-        } else {
-            alert("not good")
-        }
+        this.checkEnableGoogleService
+        GoogleSignin.signIn()
+        .then((user) => {
+          console.log(user);
+          
+        })
+        .catch((err) => {
+            let errorMessage = err.message
+            this.setState({errorSignIn:errorMessage})
+          console.log('WRONG SIGNIN', err);
+        })
+        .done();
     }
 
     configurationIOS() {
         GoogleSignin.configure({
-            iosClientId: "762353163795-9l9q9is53sog11gu3kqvusdnv58aq3m1.apps.googleusercontent.com", // only for iOS
+            iosClientId: "762353163795-13bd86erv4297jqq6nlmhejp5b28e1mh.apps.googleusercontent.com", // only for iOS
         }).then(() => {
             // you can now call currentUserAsync()
-            checkAsyncAccount()
+            this.checkAsyncAccount()
         });
     }
     
     checkAsyncAccount() {
         GoogleSignin.currentUserAsync().then((user) => {
-            console.log('USER', user);
-            this.setState({user: user});
+            let display = user.name
+            this.setState({
+                user: user,
+                displayName: user.name
+            });
         }).done();
     }
 
     //Lifecycle
-    componentDidMount() {
-        configurationIOS()
+    componentWillMount() {
+        this.configurationIOS()
     }
+    
     
 
     render() {
@@ -60,8 +78,12 @@ export default class LoginScreen extends Component {
             <View style={styles.main}>
                 <GoogleSigninButton  style={styles.buttonSignInGoogle} size={GoogleSigninButton.Size.Wide}
                     color={GoogleSigninButton.Color.Dark}  onPress={this.signInGoogle}/>
+                    <Text>User name: {this.state.displayName}</Text>
+                    <Text>Error login: {this.state.errorSignIn}</Text>
             </View>
         );
+    }
+    componentDidMount() {
     }
 
 }

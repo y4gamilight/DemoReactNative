@@ -13,13 +13,13 @@ export default class LoginScreen extends Component {
         this.state = {
             enableGoogleService: false,
             displayName:""
-        }
+        };
     }
-    updateMessage(value) {
+    updateErrorMessage() {
         this.setState ({
             errorSignIn: value
         }); 
-    }
+    };
 
     checkEnableGoogleService() {
         GoogleSignin.hasPlayServices({ autoResolve: true }).then(() => {
@@ -36,13 +36,19 @@ export default class LoginScreen extends Component {
         this.checkEnableGoogleService
         GoogleSignin.signIn()
         .then((user) => {
-          console.log(user);
+          if (user == nil) {
+            console.log("User null")
+          } else {
+            console.log("User sign " + user);
+          }
           
         })
         .catch((err) => {
-            let errorMessage = err.message
-            this.setState({errorSignIn:errorMessage})
-          console.log('WRONG SIGNIN', err);
+           console.log('WRONG SIGNIN', err.message);
+          let errMessage = err.message;
+          this.setState({
+               errorSignIn:errMessage
+           });
         })
         .done();
     }
@@ -58,10 +64,10 @@ export default class LoginScreen extends Component {
     
     checkAsyncAccount() {
         GoogleSignin.currentUserAsync().then((user) => {
-            let display = user.name
-            this.setState({
+             console.log("USer current :" + user);
+            this.state = this.setState ({
                 user: user,
-                displayName: user.name
+                displayName: user == null ? "" : user.name
             });
         }).done();
     }
@@ -77,7 +83,7 @@ export default class LoginScreen extends Component {
         return (
             <View style={styles.main}>
                 <GoogleSigninButton  style={styles.buttonSignInGoogle} size={GoogleSigninButton.Size.Wide}
-                    color={GoogleSigninButton.Color.Dark}  onPress={this.signInGoogle}/>
+                    color={GoogleSigninButton.Color.Dark}  onPress={this.signInGoogle.bind(this)}/>
                     <Text>User name: {this.state.displayName}</Text>
                     <Text>Error login: {this.state.errorSignIn}</Text>
             </View>

@@ -6,12 +6,15 @@ import {
   Button,
   View
 } from 'react-native';
-import {fbLoginPermission} from '../../constants/index'
+import {fbLoginPermissions} from '../../constants/index'
+import FireBaseConfig from '../../config/FireBaseConfig'
+import AuthConfig from '../../config/AuthConfig'
 
 export default class LoginFBScreen extends Component {
   
     clickedButtonFacebook() {
-      alert("login facebook")
+      alert("login facebook " + fbLoginPermissions)
+      AuthConfig.logoutFacebook
     }
   
    componentWillMount() {
@@ -43,3 +46,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#F5FCFF',
     },
 });
+
+export const handleFbLogin = () => (
+  Auth.Facebook.login(fbLoginPermissions)
+    .then((token) => {
+      firebase.auth()
+        .signInWithCredential(firebase.auth.FacebookAuthProvider.credential(token))
+    })
+    .catch((err) => this.onError && this.onError(err))
+);

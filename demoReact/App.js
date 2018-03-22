@@ -12,13 +12,14 @@ import {
   View
 } from 'react-native';
 import LoginScreen from './sources/mvc/views/LoginScreen'
+import LoginFBScreen from './sources/mvc/views/LoginFBScreen'
 
 export default class App extends Component {
   render() {
     return (
-      <LoginScreen style={styles.container}>
+      <LoginFBScreen style={styles.container}>
        
-      </LoginScreen>
+      </LoginFBScreen>
     );
   }
 }

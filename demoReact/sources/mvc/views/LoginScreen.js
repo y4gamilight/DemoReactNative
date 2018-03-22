@@ -15,12 +15,7 @@ export default class LoginScreen extends Component {
             displayName:""
         };
     }
-<<<<<<< HEAD
     updateErrorMessage() {
-=======
-
-    updateMessage(value) {
->>>>>>> a5fc32857edd4c7123c5d300a2074c080855d0e1
         this.setState ({
             errorSignIn: value
         }); 
@@ -41,7 +36,6 @@ export default class LoginScreen extends Component {
         this.checkEnableGoogleService;
         GoogleSignin.signIn()
         .then((user) => {
-<<<<<<< HEAD
           if (user == nil) {
             console.log("User null")
           } else {
@@ -55,21 +49,6 @@ export default class LoginScreen extends Component {
           this.setState({
                errorSignIn:errMessage
            });
-=======
-            if(user) {
-                console.log(user);
-            } else {
-                console.log("Cancel");
-            }
-          
-        })
-        .catch((err) => {
-            let errorMessage = (err) => {
-                this.updateMessage(err)
-            };
-            console.log('WRONG SIGNIN', err);
-          throw err
->>>>>>> a5fc32857edd4c7123c5d300a2074c080855d0e1
         })
         .done();
     }
@@ -85,20 +64,11 @@ export default class LoginScreen extends Component {
     
     checkAsyncAccount() {
         GoogleSignin.currentUserAsync().then((user) => {
-<<<<<<< HEAD
              console.log("USer current :" + user);
             this.state = this.setState ({
                 user: user,
                 displayName: user == null ? "" : user.name
             });
-=======
-            if (user != null) {
-                this.setState({
-                    user: user,
-                    displayName: user.name
-                });
-            }
->>>>>>> a5fc32857edd4c7123c5d300a2074c080855d0e1
         }).done();
     }
 

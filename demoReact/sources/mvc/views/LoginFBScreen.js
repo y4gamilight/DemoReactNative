@@ -6,7 +6,7 @@ import {
   Button,
   View
 } from 'react-native';
-import {fbLoginPermission} from './sources/constants/index'
+import {fbLoginPermission} from '../../constants/index'
 
 export default class LoginFBScreen extends Component {
   

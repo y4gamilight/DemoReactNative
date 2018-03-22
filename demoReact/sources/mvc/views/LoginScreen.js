@@ -15,6 +15,7 @@ export default class LoginScreen extends Component {
             displayName:""
         }
     }
+
     updateMessage(value) {
         this.setState ({
             errorSignIn: value
@@ -27,22 +28,28 @@ export default class LoginScreen extends Component {
                 this.updateMessage(true) 
              })
         .catch((err) => {
-            let errorMessage = err.message
-            this.setState({errorSignIn:errorMessage})
+            let errorMessage = err.message.toString();
+            this.updateMessage(errorMessage)
             return err
          })
     }
     signInGoogle() {
-        this.checkEnableGoogleService
+        this.checkEnableGoogleService;
         GoogleSignin.signIn()
         .then((user) => {
-          console.log(user);
+            if(user) {
+                console.log(user);
+            } else {
+                console.log("Cancel");
+            }
           
         })
         .catch((err) => {
-            let errorMessage = err.message
-            this.setState({errorSignIn:errorMessage})
-          console.log('WRONG SIGNIN', err);
+            let errorMessage = (err) => {
+                this.updateMessage(err)
+            };
+            console.log('WRONG SIGNIN', err);
+          throw err
         })
         .done();
     }
@@ -58,11 +65,12 @@ export default class LoginScreen extends Component {
     
     checkAsyncAccount() {
         GoogleSignin.currentUserAsync().then((user) => {
-            let display = user.name
-            this.setState({
-                user: user,
-                displayName: user.name
-            });
+            if (user != null) {
+                this.setState({
+                    user: user,
+                    displayName: user.name
+                });
+            }
         }).done();
     }
 

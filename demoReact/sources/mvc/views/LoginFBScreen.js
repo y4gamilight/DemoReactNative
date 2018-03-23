@@ -6,15 +6,12 @@ import {
   Button,
   View
 } from 'react-native';
-import {fbLoginPermissions} from '../../constants/index'
-import FireBaseConfig from '../../config/FireBaseConfig'
-import AuthConfig from '../../config/AuthConfig'
-
+import facebook from '../../../sources/handler/facebook'
 export default class LoginFBScreen extends Component {
   
     clickedButtonFacebook() {
-      alert("login facebook " + fbLoginPermissions)
-      AuthConfig.logoutFacebook
+      alert("login facebook " + facebook.fbLoginPermissions)
+     
     }
   
    componentWillMount() {
